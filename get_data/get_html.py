@@ -1,4 +1,5 @@
 from urllib.request import urlopen
+import re
 
 # list of albums is broken up into separate pages for every 50 albums
 # this list is from bottom (500) to top (1) ranking
@@ -13,8 +14,13 @@ url_list = ["https://www.rollingstone.com/music/music-lists/best-albums-of-all-t
             "https://www.rollingstone.com/music/music-lists/best-albums-of-all-time-1062063/the-band-music-from-big-pink-2-1063133/",
             "https://www.rollingstone.com/music/music-lists/best-albums-of-all-time-1062063/jay-z-the-blueprint-3-1063183"]
 
+album_re = "{\"ID\".*?}" # matches all relevant data for a particular album
+
 for u in url_list:
   html = urlopen(u).read().decode("utf-8")
-            
-            
-#album data is stored in the variable "pmcGalleryExports"
+  data_start = html.find("pmcGalleryExports") #album data is stored in the variable "pmcGalleryExports"
+  data_end = html.find("galleryCount") #end of the album data
+  album_data = html[data_start:data_end]
+  albums = re.findall(album_re, album_data)
+  break
+  #TODO: for each album, extract relevant data and store in a csv
