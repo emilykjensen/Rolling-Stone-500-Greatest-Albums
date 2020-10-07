@@ -18,9 +18,13 @@ album_re = "{\"ID\".*?}" # matches all relevant data for a particular album
 
 for u in url_list:
   html = urlopen(u).read().decode("utf-8")
-  data_start = html.find("pmcGalleryExports") #album data is stored in the variable "pmcGalleryExports"
-  data_end = html.find("galleryCount") #end of the album data
+  data_start = html.find("pmcGalleryExports") # album data is stored in the variable "pmcGalleryExports"
+  data_end = html.find("galleryCount")        # end of the album data
   album_data = html[data_start:data_end]
   albums = re.findall(album_re, album_data)
   break
-  #TODO: for each album, extract relevant data and store in a csv
+  # TODO: for each album, extract relevant data and store in a csv
+  # relevant data = "positionDisplay" (rank)
+  #                 "title" (form of Artist, Album)
+  #                 "subtitle" (form of Label, Year)
+  #                 "description" (text is inside <p> tags)
